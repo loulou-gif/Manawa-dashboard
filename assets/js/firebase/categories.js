@@ -1,6 +1,6 @@
 // Import des fonctions Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { collection, addDoc, getFirestore, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { collection, addDoc, getFirestore, getDocs, deleteDoc, doc, updateDoc, deleteField } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 // Votre configuration Firebase
 const firebaseConfig = {
@@ -80,7 +80,7 @@ async function fetchAndDisplayData() {
                 <td>
                     <div class="d-flex px-2 py-2">
                         <div>
-                            <img src="${data.imageUrl}" class="avatar avatar-sm me-3 border-radius-lg" alt="category-image">
+                            <img src="${data.imageUrl}" class="avatar avatar-lg me-3 border-radius-md" alt="category-image">
                         </div>
                         <div class="d-flex flex-column justify-content-start">
                             <h6 class="mb-0 text-sm">${data.nom}</h6>
@@ -92,9 +92,12 @@ async function fetchAndDisplayData() {
                     <span class="text-secondary text-xs font-weight-bold">${new Date().toLocaleDateString()}</span>
                 </td>
                 <td class="align-middle">
-                    <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                        Edit
-                    </a>
+                    <button href="javascript:;" class="text-white btn btn-success font-weight-bold text-xs"  data-original-title="Edit catégories">
+                        <i class="material-icons opacity-10"> edit </i>
+                    </button>
+                    <button href="javascript:;" class="text-white btn btn-danger font-weight-bold text-xs"  data-original-title="Edit catégories">
+                        <i class="material-icons opacity-10"> delete </i>
+                    </button>
                 </td>
             `;
             // Ajouter la nouvelle ligne au tbody du tableau HTML
@@ -106,4 +109,35 @@ async function fetchAndDisplayData() {
 }
 
 // Appeler la fonction pour récupérer et afficher les données lors du chargement de la page
+
+
+// tableBody.addEventListener('click', async function(event) {
+//     if (event.target.classList.contains('btn-success')) {
+//         const row = event.target.closest('tr');
+//         const categoryId = row.getAttribute('data-category-id');
+//         // Implémentez la logique pour la modification de la catégorie ici
+//         // Par exemple, vous pouvez afficher un formulaire de modification avec les données actuelles de la catégorie
+//         // Une fois que l'utilisateur a modifié les données et soumis le formulaire, vous pouvez mettre à jour les données dans Firestore
+//     }
+// });
+
+// async function deleteCategory(categoryId) {
+//     try {
+//         await deleteDoc(doc(db, 'catégories', categoryId));
+//         console.log("Document supprimé avec succès");
+//         // Mettre à jour l'affichage après suppression
+//         fetchAndDisplayData();
+//     } catch (error) {
+//         console.error("Erreur lors de la suppression du document :", error);
+//     }
+// }
+
+// tableBody.addEventListener('click', async function(event) {
+//     if (event.target.classList.contains('btn-danger')) {
+//         const row = event.target.closest('tr');
+//         const categoryId = row.getAttribute('data-category-id');
+//         await deleteCategory(categoryId);
+//     }
+// });
+
 fetchAndDisplayData();
