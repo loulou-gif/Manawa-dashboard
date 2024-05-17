@@ -19,7 +19,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app); // Utilisation de getAuth pour obtenir une instance d'authentification
 
 // Déconnexion
-document.getElementById('logout-button').addEventListener('click', function(event) {
+document.getElementsByClassName('logout-button').addEventListener('click', function(event) {
   event.preventDefault(); // Empêcher le comportement par défaut du bouton
 
   // Déconnexion de l'utilisateur
