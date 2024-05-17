@@ -38,6 +38,18 @@
   <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
   <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
   <script type="module" src="../assets//js/firebase/signout.js"></script>
+  <script type="module" src="../assets/js/firebase/categories.js"></script>
+  <style>
+    .custom-file-input {
+      opacity: 0; /* Rend le champ d'upload transparent */
+      position: absolute; /* Position absolue pour le cacher tout en conservant la fonctionnalité */
+      width: 100%; /* Largeur de l'élément sur toute la largeur du parent */
+      height: 100%; /* Hauteur de l'élément sur toute la hauteur du parent */
+      top: 0; /* Position en haut */
+      left: 0; /* Position à gauche */
+      cursor: pointer; /* Curseur pointer pour indiquer l'interaction */
+    }
+  </style>
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -251,23 +263,23 @@
                 </div>
                 <div class="card-body px-0 pb-2">
                     <div class="table-responsive p-0">
-                        <form class="col-12 ">
+                        <form class="col-12 " id="create">
                             <div class="img d-flex justify-content-center">
-                                <img src="../assets/img/background/img-bg.png" alt="" width="150" height="150">
+                                <img id="previewImage" src="../assets/img/background/img-bg.png" alt="" width="150" height="150">
                             </div>
                             <div class="position-relative py-2 px-4">
                                 <div class="mb-3 mt-3 col-12 input-group input-group-outline">
                                     <label class="form-label">Nom</label>
-                                    <input type="text" class="form-control col-12">
+                                    <input type="text" name="nom" class="form-control col-12">
                                 </div>
                                 <div class="mb-3 mt-3 col-6 input-group input-group-outline">
                                     <label class="form-label">Description</label>
-                                    <input type="text" class="form-control col-12">
+                                    <input type="text" name="description" class="form-control col-12">
                                 </div>
                             </div>
                             <div class="position-relative py-2 px-4">
-                                <button type="button" class="btn btn-success"> <i class="material-icons opacity-10">upload</i>  Télécharger image</button>
-                                <button type="submit" class="btn btn-warning"> <i class="material-icons opacity-10">add_circle</i>Créer</button>
+                                <button type="button" class="btn btn-success"> <input type="file" class="custom-file-input" id="customFile"><i class="material-icons opacity-10">upload</i>  Télécharger image</button>
+                                <button type="submit" class="btn btn-warning"> <i class="material-icons opacity-10">add_circle</i>  Créer</button>
                             </div>
                         </form>
                     </div>
@@ -816,6 +828,19 @@
       }
       Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
+  </script>
+  <script>
+    document.getElementById('customFile').addEventListener('change', function() {
+      const file = this.files[0]; // Récupère le fichier sélectionné
+      const reader = new FileReader(); // Crée un objet FileReader
+  
+      reader.onload = function(e) {
+          document.getElementById('previewImage').src = e.target.result; // Met à jour la source de l'image avec l'image sélectionnée
+      }
+  
+      reader.readAsDataURL(file); // Lit le contenu du fichier en tant qu'URL de données
+  });
+  
   </script>
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
