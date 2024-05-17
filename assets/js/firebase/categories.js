@@ -1,6 +1,6 @@
 // Import des fonctions Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { collection, addDoc, getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { collection, addDoc, getFirestore, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 // Votre configuration Firebase
 const firebaseConfig = {
@@ -52,3 +52,58 @@ document.getElementById('create').addEventListener('submit', async function(even
         console.error("Erreur lors de l'envoi des données à Firestore :", error);
     }
 });
+
+// Récupérer une référence vers le tbody du tableau HTML
+const tableBody = document.querySelector('tbody');
+
+// Fonction pour récupérer et afficher les données depuis Firestore
+async function fetchAndDisplayData() {
+    try {
+        // Récupérer les données depuis Firestore
+        const querySnapshot = await getDocs(collection(db, 'catégories'));
+        console.log(querySnapshot.docs)
+        // console.log(tableBody.innerHTML)
+
+        // Réinitialiser le contenu du tbody
+        tableBody.innerHTML = '';
+
+        
+        // Pour chaque document dans la collection
+        querySnapshot.forEach(doc => {
+            // Récupérer les données du document
+            const data = doc.data();
+            console.log(data)
+            // Créer une nouvelle ligne dans le tableau HTML
+            const newRow = document.createElement('tr');
+            
+            newRow.innerHTML = `
+                <td>
+                    <div class="d-flex px-2 py-2">
+                        <div>
+                            <img src="${data.imageUrl}" class="avatar avatar-sm me-3 border-radius-lg" alt="category-image">
+                        </div>
+                        <div class="d-flex flex-column justify-content-start">
+                            <h6 class="mb-0 text-sm">${data.nom}</h6>
+                            <p class="text-xs text-secondary mb-0">${data.description}</p>
+                        </div>
+                    </div>
+                </td>
+                <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">${new Date().toLocaleDateString()}</span>
+                </td>
+                <td class="align-middle">
+                    <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        Edit
+                    </a>
+                </td>
+            `;
+            // Ajouter la nouvelle ligne au tbody du tableau HTML
+            tableBody.appendChild(newRow);
+        });
+    } catch (error) {
+        console.error("Erreur lors de la récupération des données depuis Firestore :", error);
+    }
+}
+
+// Appeler la fonction pour récupérer et afficher les données lors du chargement de la page
+fetchAndDisplayData();

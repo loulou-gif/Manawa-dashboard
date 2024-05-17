@@ -43,4 +43,3 @@ document.getElementById('signup-form').addEventListener('submit', function(event
     });
 });
 
-console.log('5')
